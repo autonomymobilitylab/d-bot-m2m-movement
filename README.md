@@ -14,3 +14,8 @@ Intel NUC
 ## libraries
 
 running motors from Intel Nuc
+
+
+Credits to rasheeddo for amazing work with zlac8015d
+<https://github.com/rasheeddo/ZLAC8015D_python>
+<https://github.com/rasheeddo/jmoab-ros>
