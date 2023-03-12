@@ -10,3 +10,7 @@ ZLTECH ZLAC8015D
 
 Computing
 Intel NUC
+
+## libraries
+
+running motors from Intel Nuc
