@@ -11,6 +11,12 @@ ZLTECH ZLAC8015D
 Computing
 Intel NUC
 
+## installation
+
+apt-get update
+apt-get install pip
+pip3 install smbus2
+
 ## libraries
 
 running motors from Intel Nuc
