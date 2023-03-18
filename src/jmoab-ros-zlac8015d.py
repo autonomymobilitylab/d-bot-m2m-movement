@@ -73,7 +73,7 @@ class JMOAB_ZLAC8015D:
         self.prev_mode_num = 3
 
         ### ZLAC8015D Init ###
-        self.zlc = ZLAC8015D.Controller(port="/dev/usb_rs485")
+        self.zlc = ZLAC8015D(port="/dev/usb_rs485")
         self.zlac8015d_speed_mode_init()
 
         self.max_rpm = 150
