@@ -1,5 +1,5 @@
 <launch>
-  <node name="jmoab_ros_ZLAC8015D_node" pkg="d-bot-m2m-movement" type="jmoab-ros-zlac8015d.py">
+  <node name="pcan_ZLAC8015D_node" pkg="d-bot-m2m-movement" type="pcan-zlac8015d.py">
     <param name="publish_rate" value="20.0" />
   </node>
 </launch>
