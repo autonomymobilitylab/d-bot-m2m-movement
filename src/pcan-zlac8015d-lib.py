@@ -21,8 +21,6 @@ class PCAN_ZLAC8015D:
     def __init__(self):
         m_objPCANBasic = PCANBasic()
 
-        # Try different channel numbers until the correct one is found
-       
         channel = PCAN_USBBUS1
         #Kaikki palauttaa vaan 5120 == it indicates that the PCAN hardware interface connected to the specified channel was not found.
         result = m_objPCANBasic.Initialize(channel, PCAN_BAUD_500K)

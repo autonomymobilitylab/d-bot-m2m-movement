@@ -4,7 +4,7 @@ from std_msgs.msg import Int32MultiArray, Int8, Float32MultiArray, String
 from nav_msgs.msg import Odometry
 from tf.transformations import quaternion_from_euler
 from geometry_msgs.msg import TransformStamped
-from PCANBasic import *
+from ./PCANBasic import *
 import can
 from can.interface import Bus
 import os
