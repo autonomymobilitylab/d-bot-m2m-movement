@@ -97,6 +97,15 @@ class PCAN_ZLAC8015D_CONNECTION:
     def forward_slow(self):
         self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_slow_move_forward_message())
 
+    def forward_fast(self):
+        self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_fast_move_forward_message())
+
+    def turn_left(self):
+        self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_turn_left_message())
+
+    def turn_right(self):
+        self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_turn_right_message())
+
     def stop_movement(self):
         self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_start2_msg())
 
