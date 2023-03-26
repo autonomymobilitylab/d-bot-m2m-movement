@@ -1,13 +1,8 @@
 #!/usr/bin/env python3
 from PCANBasic import *
-import os
 from ctypes import *
 from string import *
 from util.zlac8015d_msg_util import ZLAC8015dMsgUtil
-import platform
-import time
-
-from ZLAC8015D import Controller as ZLAC8015D
 
 class PCAN_ZLAC8015D_CONNECTION:
 
@@ -85,25 +80,25 @@ class PCAN_ZLAC8015D_CONNECTION:
         msgCanMessage.MSGTYPE = PCAN_MESSAGE_STANDARD.value
 
     def start1(self):
-        self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_start1_msg)
+        self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_start1_msg())
 
     def start2(self):
-        self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_start2_msg)
+        self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_start2_msg())
 
     def start3(self):
-        self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_start3_msg)
+        self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_start3_msg())
 
     def start4(self):
-        self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_start4_msg)
+        self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_start4_msg())
 
     def start5(self):
-        self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_start5_msg)
+        self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_start5_msg())
 
     def forward_slow(self):
-        self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_slow_move_forward_message)
+        self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_slow_move_forward_message())
 
     def stop_movement(self):
-        self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_start2_msg)
+        self.m_objPCANBasic.Write(self.pcan_handle, self.msg_util.get_start2_msg())
 
     def degug_log(self, result):
         print(result)

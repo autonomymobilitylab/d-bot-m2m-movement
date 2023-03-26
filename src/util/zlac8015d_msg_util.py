@@ -2,13 +2,13 @@ import numpy as np
 
 from PCANBasic import *
 
-
 class ZLAC8015dMsgUtil:
 
     def __init__(self):
         return
 
     def get_start1_msg(self):
+        print('running can_start1')
         msgCanMessage = TPCANMsg()
         msgCanMessage.ID = 0x000
         msgCanMessage.LEN = 8

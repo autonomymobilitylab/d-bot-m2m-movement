@@ -1,16 +1,5 @@
 #!/usr/bin/env python3
 # external
-import rospy
-from std_msgs.msg import Int32MultiArray, Int8, Float32MultiArray, String
-from nav_msgs.msg import Odometry
-from tf.transformations import quaternion_from_euler
-from geometry_msgs.msg import TransformStamped
-import can
-from can.interface import Bus
-import os
-from ctypes import *
-from string import *
-import platform
 import time
 
 # self managed
