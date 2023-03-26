@@ -10,7 +10,10 @@ ZLTECH ZLAC8015D
 
 
 Computing  
-Intel NUC  
+Intel NUC 11
+
+CAN
+<https://www.peak-system.com/PCAN-USB.199.0.html?&L=1>
 
 ![Image](./resource/img/hardware_1.jpg)
 
@@ -19,14 +22,19 @@ Intel NUC
 ```bash
 apt-get update  
 apt-get install pip  
-pip3 install smbus2  
+optional
 pip3 install python-can[pcan]  
 ```
 
+# test installation of pcan and zlac8015d
+
+```bash
+python3 src/pcan-zlac8015d-tester.py
+```
+
+
 ## libraries
 
-running motors from Intel Nuc
+Pcan-basic library
+<https://www.peak-system.com/PCAN-Basic.239.0.html?&L=1>
 
-Credits to rasheeddo for amazing work with zlac8015d
-<https://github.com/rasheeddo/ZLAC8015D_python>
-<https://github.com/rasheeddo/jmoab-ros>
