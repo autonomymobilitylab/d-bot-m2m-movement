@@ -120,8 +120,8 @@ class ZLAC8015dMsgUtil:
         msgCanMessage.DATA[7] = 0xFF
         return msgCanMessage
 
-    def get_turn_left_message(self):
-        print('running turn left')
+    def get_turn_right_message(self):
+        print('running left motor')
         # 23h FFh 60h 03h 00h 01h 00h 00h
         msgCanMessage = TPCANMsg()
         msgCanMessage.ID = 0x601
@@ -137,8 +137,8 @@ class ZLAC8015dMsgUtil:
         msgCanMessage.DATA[7] = 0x00
         return msgCanMessage
 
-    def get_turn_right_message(self):
-        print('running turn right')
+    def get_turn_left_message(self):
+        print('running right motor')
         # 23h FFh 60h 02h 00h 01h 00h 00h
         msgCanMessage = TPCANMsg()
         msgCanMessage.ID = 0x601
