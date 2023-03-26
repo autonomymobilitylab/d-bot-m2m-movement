@@ -11,31 +11,72 @@ import os
 from ctypes import *
 from string import *
 import platform
+import time
+
 
 from ZLAC8015D import Controller as ZLAC8015D
 
 class PCAN_ZLAC8015D:
     
     def __init__(self):
+        m_objPCANBasic = PCANBasic()
+
+        # Try different channel numbers until the correct one is found
+       
+        channel = PCAN_USBBUS1
+        #Kaikki palauttaa vaan 5120 == it indicates that the PCAN hardware interface connected to the specified channel was not found.
+        result = m_objPCANBasic.Initialize(channel, PCAN_BAUD_500K)
+        print(result)
+        m_objPCANBasic.Uninitialize(channel)
+        if result == PCAN_ERROR_OK:
+            # Found the correct channel number
+            print("Channel number is:", channel)
+            m_objPCANBasic.Uninitialize(channel)
         #bus = can.interface.Bus(bustype='pcan', channel='PCAN_USBBUS1',state = can.bus.BusState.PASSIVE, bitrate=500000)
         #TPCANHandle                   = c_ushort
         #PCAN_USBBUS1                  = TPCANHandle(0x51)
+        # m_objPCANBasic = PCANBasic()
 
-        self.PcanHandle = PCAN_USBBUS1
+        # # Try different channel numbers until the correct one is found
+        # for i in range(1, 40):
+        #     result = m_objPCANBasic.Uninitialize(i)
+        #     m_objPCANBasic.Initialize(i, PCAN_BAUD_500K)
+        #     print(result)
+        #     m_objPCANBasic.Uninitialize(i)
+        #     if result == PCAN_ERROR_OK:
+        #         # Found the correct channel number
+        #         print("Channel number is:", i)
+        #         #m_objPCANBasic.Uninitialize(i)
+        #         break
+
+
+
+        self.PcanHandle = channel
+        print(self.PcanHandle)
         IsFD = False
         
         Bitrate = PCAN_BAUD_500K
         m_DLLFound = False
+        # cHECK that not initted already
         
         self.m_objPCANBasic = PCANBasic()
-        self.m_objPCANBasic.Initialize(self.PcanHandle,Bitrate)
+        #stsResult = self.m_objPCANBasic.Read(self.PcanHandle)
+        #print(stsResult)
+        res = self.m_objPCANBasic.Initialize(self.PcanHandle,Bitrate)
+        print(res)
+        #stsResult = self.m_objPCANBasic.Read(self.PcanHandle)
+        #print(stsResult)
+        #self.m_objPCANBasic.Uninitialize(self.PcanHandle)
+        #stsResult = self.m_objPCANBasic.Read(self.PcanHandle)
+        #print(stsResult)
 
-        try:
-            self.m_objPCANBasic = PCANBasic()
-            m_DLLFound = True
-        except :
-            print("Unable to find the library: PCANBasic.dll !")
-            m_DLLFound = False
+        #self.m_objPCANBasic.Initialize(self.PcanHandle,Bitrate)
+        # try:
+        #     self.m_objPCANBasic = PCANBasic()
+        #     m_DLLFound = True
+        # except :
+        #     print("Unable to find the library: PCANBasic.dll !")
+        #     m_DLLFound = False
 
         #bus = Bus(bustype='pcan', channel='PCAN_USBBUS1', bitrate=250000)
         #rospy.loginfo("Swocket can connected successfully!")
@@ -47,27 +88,28 @@ class PCAN_ZLAC8015D:
         #    rospy.loginfo("Cannot find pcan channel: vcan0")
 
         #self.test_can_connection(bus)
-        rospy.init_node('pcan_ZLAC8015D_node', anonymous=True)
-        #pub1 = rospy.Publisher('chatter', String)
-        rospy.loginfo("Start pcan-ZLAC8015D node")
-        self.pub = rospy.Publisher('hello', String, queue_size=10)
-        message = 'Hello, world1111!'
-        rospy.loginfo(message)
-        self.pub.publish(message)
         #pub1.publish('test')
-        self.init_dbot()
+        #self.init_dbot()
+        time.sleep(3)
         self.can_start1()
+        time.sleep(3)
         self.can_start2()
+        time.sleep(3)
         self.can_start3()
+        time.sleep(3)
         self.can_start4()
+        time.sleep(3)
         self.can_start5()
+        time.sleep(3)
         self.can_slow_front_both()
-        rospy.sleep(10)
-        self.can_start2()
-        message1 = 'Hello, world1111!'
-        #self.ros_hello()
-        self.pub.publish(message1)
+        # self.can_start2()
+        time.sleep(3)
         stsResult = self.m_objPCANBasic.Read(self.PcanHandle)
+        print(stsResult)
+        self.can_start2()
+        self.m_objPCANBasic.Uninitialize(self.PcanHandle)
+        
+
         
 
     def GetDataString(data, msgtype):
@@ -107,7 +149,7 @@ class PCAN_ZLAC8015D:
 
     def test_can_connection(self, bus):
         msgCanMessage = TPCANMsg()
-        msgCanMessage.ID = 0xC0FFEE
+        msgCanMessage.ID = 0x0c72 
         msgCanMessage.LEN = 8
         msgCanMessage.MSGTYPE = PCAN_MESSAGE_STANDARD.value
 
@@ -122,21 +164,19 @@ class PCAN_ZLAC8015D:
         #    rospy.loginfo("Message NOT sent")
     
     def init_dbot(self):
+        print('initializing dbot pcan')
         msgCanMessage = TPCANMsg()
         msgCanMessage.ID = 0x000
         msgCanMessage.LEN = 8
         msgCanMessage.MSGTYPE = PCAN_MESSAGE_STANDARD.value
         msgCanMessage.DATA=0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-        self.m_objPCANBasic.Write(self.PcanHandle, msgCanMessage)
-        #try:
-        ##    bus.send(msg)
-        #    print(f"Message sent on {bus.channel_info}")
-        #except can.CanError:
-        #    print("Message NOT sent")
+        res = self.m_objPCANBasic.Write(self.PcanHandle, msgCanMessage)
+        print(res)
 
     def can_start1(self):
+        print('running can_start1')
         msgCanMessage = TPCANMsg()
-        msgCanMessage.ID = 0x000
+        msgCanMessage.ID = 0x601
         msgCanMessage.LEN = 8
         msgCanMessage.MSGTYPE = PCAN_MESSAGE_STANDARD.value
         msgCanMessage.DATA[0]=0x01
@@ -160,6 +200,7 @@ class PCAN_ZLAC8015D:
         #    print("Message NOT sent")
 
     def can_start2(self):
+        print('running can_start2')
         msgCanMessage = TPCANMsg()
         msgCanMessage.ID = 0x601
         msgCanMessage.LEN = 8
@@ -185,8 +226,9 @@ class PCAN_ZLAC8015D:
 
 
     def can_start3(self):
+        print('running can_start3')
         msgCanMessage = TPCANMsg()
-        msgCanMessage.ID = 0x601
+        msgCanMessage.ID = 0x601 
         msgCanMessage.LEN = 8
         msgCanMessage.MSGTYPE = PCAN_MESSAGE_STANDARD.value
         msgCanMessage.DATA[0]=0x2B
@@ -211,6 +253,7 @@ class PCAN_ZLAC8015D:
 
 
     def can_start4(self):
+        print('running can_start4')
         msgCanMessage = TPCANMsg()
         msgCanMessage.ID = 0x601
         msgCanMessage.LEN = 8
@@ -225,22 +268,14 @@ class PCAN_ZLAC8015D:
         msgCanMessage.DATA[7]=0x00
 
         self.m_objPCANBasic.Write(self.PcanHandle, msgCanMessage)
-        #msg = can.Message(
-        #    arbitration_id=0x601, data=[0x2b, 0x40, 0x60, 0x00, 0x06, 0x00, 0x00, 0x00], is_extended_id=True
-        #    )
-        #try:
-        #    bus.send(msg)
-        #    print(f"Message sent on {bus.channel_info}")
-        #except can.CanError:
-        #    print("Message NOT sent")
-    
 
     def can_start5(self):
+        print('running can_start5')
         msgCanMessage = TPCANMsg()
         msgCanMessage.ID = 0x601
         msgCanMessage.LEN = 8
         msgCanMessage.MSGTYPE = PCAN_MESSAGE_STANDARD.value
-        msgCanMessage.DATA[0]=0x2b
+        msgCanMessage.DATA[0]=0x2B
         msgCanMessage.DATA[1]=0x40
         msgCanMessage.DATA[2]=0x60
         msgCanMessage.DATA[3]=0x00
@@ -250,27 +285,9 @@ class PCAN_ZLAC8015D:
         msgCanMessage.DATA[7]=0x00
 
         self.m_objPCANBasic.Write(self.PcanHandle, msgCanMessage)
-        #msg = can.Message(
-        #    arbitration_id=0x601, data=[0x2b, 0x40, 0x60, 0x00, 0x07, 0x00, 0x00, 0x00], is_extended_id=True
-        #    )
-        #try:
-        #    bus.send(msg)
-        #    print(f"Message sent on {bus.channel_info}")
-        #except can.CanError:
-        #    print("Message NOT sent")
-    
-
-   
 
     def can_slow_front_both(self):
-        #msg = can.Message(
-        #    arbitration_id=0x601, data=[0x23, 0xff, 0x60, 0x03, 0x05, 0x00, 0xfa, 0xff], is_extended_id=True
-        #    )
-        #try:
-        #    bus.send(msg)
-        #    print(f"Message sent on {bus.channel_info}")
-        #except can.CanError:
-        #    print("Message NOT sent")
+        print('running can_slow_front_both')
         msgCanMessage = TPCANMsg()
         msgCanMessage.ID = 0x601
         msgCanMessage.LEN = 8
@@ -285,18 +302,14 @@ class PCAN_ZLAC8015D:
         msgCanMessage.DATA[7]=0xFF
 
         self.m_objPCANBasic.Write(self.PcanHandle, msgCanMessage)
-
-    def ros_hello(self):
-        pub = rospy.Publisher('hello', String, queue_size=10)
-        rate = rospy.Rate(1)
-        while not rospy.is_shutdown():
-            message = 'Hello, world!'
-            rospy.loginfo(message)
-            pub.publish(message)
-            rate.sleep()
+        stsResult = self.m_objPCANBasic.Read(self.PcanHandle)
+        print(stsResult[0])
+        if stsResult[0] == PCAN_ERROR_OK:
+        ## We show the received message
+        #ProcessMessageCanFd(stsResult[1],stsResult[2])
+            id = GetIdString(msgCanMessage.ID,msgCanMessage.MSGTYPE)
+            daatta = GetDataString(msgCanMessage.DATA,msgCanMessage.MSGTYPE)
+            print("READ: " + "ID: ",id , daatta)
 
 if __name__ == '__main__':
-    #pub = rospy.Publisher('hello', String, queue_size=10)
-    #pub.publish(PCAN_ZLAC8015D())
-    #rate.sleep()
     pcan = PCAN_ZLAC8015D()
