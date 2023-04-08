@@ -1,0 +1,19 @@
+<launch>
+    <!--Initialize Dbot motor drivers, set async, set vel profile, set motor accel and decel-->
+    <node name="TestDbotMovement" pkg="d-bot-m2m-movement" type="TestDbotMovement.py" output="screen"/> 
+    <!--Init joy_node which enables /joy topic and messages-->
+    <node name="joy_node" pkg="joy" type="joy_node" output="screen"/> 
+    rosrun joy joy_node
+    <!--If joystick is connected to NUC, send translated /joy topics' messages to /cmd vel-->
+    <node name="Joy" pkg="d-bot-m2m-movement" type="Joy.py" output="screen"/>
+    <!--Launches the Velodyne (Lidar) nodes etc.-->
+    <include file="$ (find velodyne)/velodyne_pointcloud/launch VLP16_points.launch"/>
+    <!--Add communication node/nodes below-->
+
+    <!--Launches the localization and publishes /odom messages to same named topic.-->
+    <!--Requires the correct map to be loaded to: hdl_localization/data-->
+    <!--Map names needs to be: map.pcd-->
+    <include file="$ (find hdl_localization)/launch hdl_localization.launch"/>
+
+    
+</launch>
